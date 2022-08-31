@@ -1,0 +1,25 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          lfs: "true"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/cf-assets-releaser
+
+      - name: Deploy
+        run: aws s3 sync ./assets s3://cf-static-assets-origin
