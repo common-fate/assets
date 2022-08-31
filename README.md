@@ -1,4 +1,4 @@
-# static
+# assets
 
 This repository contains public static assets used in Granted Access Provider documentation. Assets are published to https://static.commonfate.io.
 
